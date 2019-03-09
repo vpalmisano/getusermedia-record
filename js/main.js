@@ -67,13 +67,8 @@ recordButton.addEventListener('click', () => {
   stopPlay();
   if (recordButton.textContent === 'Start Recording') {
     startRecording();
-    playButton.disabled = true;
-    downloadButton.disabled = true;
   } else {
     stopRecording();
-    recordButton.textContent = 'Start Recording';
-    playButton.disabled = false;
-    downloadButton.disabled = false;
   }
 });
 
@@ -168,6 +163,9 @@ function startRecording() {
   mediaRecorder.ondataavailable = handleDataAvailable;
   mediaRecorder.start(1000);
   console.log('MediaRecorder started', mediaRecorder);
+
+  playButton.disabled = true;
+  downloadButton.disabled = true;
 }
 
 function stopRecording() {
@@ -175,6 +173,11 @@ function stopRecording() {
     mediaRecorder.stop();
     console.log('Recorded Blobs: ', recordedBlobs);
     infoMsgElement.innerHTML = `Record stopped (${recordedBlobs.length} seconds)`;
+  }
+  recordButton.textContent = 'Start Recording';
+  if(recordedBlobs && recordedBlobs.length > 0){
+    playButton.disabled = false;
+    downloadButton.disabled = false;
   }
 }
 
